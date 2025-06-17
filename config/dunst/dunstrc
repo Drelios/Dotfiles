@@ -1,0 +1,4 @@
+[urgency_low]
+    timeout = 1
+    skip-display = false
+    persistent = false

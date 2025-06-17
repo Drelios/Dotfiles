@@ -1,0 +1,8 @@
+theme = catppuccin-mocha
+font-family = Jetbrains
+cursor-style = bar
+mouse-hide-while-typing = true
+background-opacity = 0.90
+background-blur = 60
+copy-on-select = true
+confirm-close-surface = false

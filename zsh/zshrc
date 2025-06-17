@@ -1,0 +1,26 @@
+export ZSH="$HOME/.oh-my-zsh"
+
+
+ZSH_THEME="mael"
+
+plugins=(git emoji zsh-autosuggestions zsh-syntax-highlighting)
+
+autoload -Uz compinit
+compinit
+
+source $ZSH/oh-my-zsh.sh
+export CONDA_CHANGEPS1=false
+# >>> conda lightweight init >>>
+if [ -f "/opt/miniforge/etc/profile.d/conda.sh" ]; then
+    . "/opt/miniforge/etc/profile.d/conda.sh"
+    conda activate base
+else
+    export PATH="/opt/miniforge/bin:$PATH"
+fi
+# <<< conda lightweight init <<<
+
+export PATH="/usr/bin:$PATH"
+
+eval "$(zoxide init zsh)"
+alias GLFfetch="$(which fastfetch) --config ~/.config/fastfetch/GLFfetch/challenge.jsonc"
+alias fs="yazi"

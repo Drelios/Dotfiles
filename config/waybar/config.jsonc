@@ -1,0 +1,273 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": [
+    "hyprland/workspaces",
+    "memory",
+    "cpu",
+    "custom/cpu_temp",
+    "temperature",
+    "custom/powerDraw",
+    "custom/cava_mviz",
+    "custom/playerctl"
+  ],
+  "modules-center": [
+    "clock",
+    "custom/weather",
+    "idle_inhibitor",
+    "custom/swaync"
+  ],
+  "modules-right": [
+    "tray",
+    "backlight",
+    "pulseaudio",
+    "custom/mic",
+    "battery",
+  ],
+  "reload_style_on_change": true,
+  "custom/logo": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/cpu_temp": {
+    "format": "  {}°C",
+    "tooltip-format": "CPU Temp: {}°C",
+    "interval": 5,
+    "exec": "awk '{print int($1/1000)}' /sys/class/hwmon/hwmon4/temp1_input"
+  },
+  "custom/gpu_temp": {
+    "format": "  {}°C",
+    "tooltip-format": "GPU Temp: {}°C",
+    "interval": 5,
+    "exec": "awk '{print int($1/1000)}' /sys/class/hwmon/hwmon3/temp1_input"
+  },
+  "hyprland/workspaces": {
+    "format": "{name}{icon}",
+    "format-icons": {
+      "urgent": "  ",
+      "active": "",
+      "default": ""
+
+    }
+  },
+  "idle_inhibitor": {
+    "format": "<span font='12'>{icon} </span>",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    }
+  },
+  "custom/weather": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "interval": 10,
+    "on-click": "firefox https://wttr.in"
+  },
+  "custom/clipboard": {
+    "format": "",
+    "on-click": " cliphist list | rofi -dmenu -p 'Presse-Papier' -theme catppuccin-default | cliphist decode | wl-copy",
+    "interval": 86400
+  },
+  "clock": {
+    "format": "{:%d %B, %H:%M}",
+    "interval": 1,
+    "tooltip-format": "\n<big><span color='#F28FAD'>{:%Y %B}</span></big>\n<tt><small><span color='#F5C2E7'>{calendar}</span></small></tt>",
+    "calendar-weeks-pos": "right",
+    "today-format": "<span color='#F28FAD'><b><u>{}</u></b></span>", // Mocha for today's date
+    "format-calendar": "<span color='#F5C2E7'><b>{}</b></span>", // Macchiato for calendar dates
+    "format-calendar-weeks": "<span color='#F5C2E7'><b>W{:%V}</b></span>", // Macchiato for weeks
+    "format-calendar-weekdays": "<span color='#F5C2E7'><b>{}</b></span>" // Macchiato for weekdays
+  },
+  "bluetooth": {
+    "format-on": "",
+    "format-off": "",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂴 ",
+    "format-connected-battery": "{device_battery_percentage}% 󰂴 ",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+  "network": {
+    "format-wifi": " ",
+    "format-ethernet": " ",
+    "format-disconnected": "",
+    "tooltip-format": "{ipaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)  | {ipaddr}",
+    "tooltip-format-ethernet": "{ifname} 🖧 | {ipaddr}",
+    "on-click": "pkill  nm-connection-editor|| true && nm-connection-editor"
+  },
+  "battery": {
+    "interval": 1,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{capacity}%{icon} ",
+    "format-charging": "{capacity}% 󰂄 ",
+    "format-plugged": "{capacity}% 󰂄 ",
+    "format-alt": "{time} {icon}",
+    "format-full": "",
+    "format-icons": [
+      "󰁻",
+      "󰁼",
+      "󰁾",
+      "󰂀",
+      "󰂂",
+      "󰁹"
+    ]
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "smooth-scrolling-threshold": 1,
+    "tooltip": true,
+    "tooltip-format": "Brightness: {percent}%"
+  },
+  "disk": {
+    "interval": 30,
+    "format": "  {percentage_used}%",
+    "path": "/"
+  },
+  "custom/colorpicker": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": "once",
+    "exec": "~/.config/waybar/scripts/colorpicker.sh -j",
+    "on-click": "sleep 1 && ~/.config/waybar/scripts/colorpicker.sh",
+    "signal": 1
+  },
+  "cpu": {
+    "interval": 1,
+    "format": " {usage}%",
+    "min-length": 6,
+    "max-length": 6,
+    "on-click": "btop"
+  },
+  "memory": {
+    "format": "  {percentage}%",
+    "on-click": "btop"
+  },
+  "hyprland/window": {
+    "format": "( {class} )",
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "🌎 $1",
+      "(.*) - zsh": "> [$1]"
+    }
+  },
+  "temperature": {
+    "format": " {temperatureC}°C",
+    "format-critical": " {temperatureC}°C",
+    "interval": 1,
+    "critical-threshold": 80,
+    "on-click": "foot btop"
+  },
+  "pulseaudio": {
+    "format": "{volume}% {icon}",
+    "format-muted": "<span font='12'></span>",
+    "format-icons": {
+      "headphones": "",
+      "bluetooth": "󰥰",
+      "handsfree": "",
+      "headset": "󰥰",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "🕨",
+        "🕩",
+        "🕪"
+      ]
+    },
+    "justify": "center",
+    "on-click": "amixer sset Master toggle",
+    "on-click-right": "pavucontrol",
+    "tooltip-format": "{icon}  {volume}%"
+  },
+  "jack": {
+    "format": "{} 󱎔",
+    "format-xrun": "{xruns} xruns",
+    "format-disconnected": "DSP off",
+    "realtime": true
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+  "upower": {
+    "show-icon": false,
+    "hide-if-empty": true,
+    "tooltip": true,
+    "tooltip-spacing": 20
+  },
+  "custom/powerDraw": {
+    "format": "{}",
+    "interval": 1,
+    "exec": "~/.config/waybar/scripts/powerdraw.sh",
+    "return-type": "json"
+  },
+  "custom/cava_mviz": {
+    "exec": "$HOME/.config/hypr/scripts/WaybarCava.sh",
+    "format": "{}"
+  },
+  "custom/swaync": {
+    "tooltip": true,
+    "tooltip-format": "Left Click: Launch Notification Center\nRight Click: Do not Disturb",
+    "format": "{} {icon} ",
+    "format-icons": {
+      "notification": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "sleep 0.1 && swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+  "custom/playerctl": {
+    "format": "<span>{}</span> ",
+    "tooltip": true,
+    "tooltip-format": "Left Click: Play-Pause\nRight Click: Next song\n Middle Click: Previous Song",
+    "return-type": "json",
+    "max-length": 25,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}}  {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click-middle": "playerctl previous",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "smooth-scrolling-threshold": 1
+  },
+  "custom/mic": {
+    "exec": "~/.config/waybar/scripts/mic-status.sh",
+    "interval": 1,
+    "format": "{}",
+    "on-click": "~/.config/hypr/scripts/toggle-mic.sh",
+    "tooltip": false
+}
+
+}
