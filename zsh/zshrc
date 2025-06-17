@@ -10,17 +10,40 @@ compinit
 
 source $ZSH/oh-my-zsh.sh
 export CONDA_CHANGEPS1=false
-# >>> conda lightweight init >>>
-if [ -f "/opt/miniforge/etc/profile.d/conda.sh" ]; then
-    . "/opt/miniforge/etc/profile.d/conda.sh"
-    conda activate base
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'micromamba shell init' !!
+export MAMBA_EXE='/home/mael/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/mael/.micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
 else
-    export PATH="/opt/miniforge/bin:$PATH"
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
 fi
-# <<< conda lightweight init <<<
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/mael/.micromamba/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/mael/.micromamba/etc/profile.d/conda.sh" ]; then
+        . "/home/mael/.micromamba/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/mael/.micromamba/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
 export PATH="/usr/bin:$PATH"
 
 eval "$(zoxide init zsh)"
 alias GLFfetch="$(which fastfetch) --config ~/.config/fastfetch/GLFfetch/challenge.jsonc"
 alias fs="yazi"
+
+
